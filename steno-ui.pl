@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+#See https://docstore.mik.ua/orelly/perl3/tk/index.htm
 use warnings;
 use strict;
 use Tk;
@@ -18,6 +19,7 @@ sub notify {
     $notification->transient($mw);
     $notification->overrideredirect(1);
     $notification->Popup( -popanchor => 'c' );
+    $notification->geometry("-0+20");
     my $frame = $notification->Frame( -border => 5, -relief => 'groove' )->pack;
     $frame->Label( -text => $message, )->pack( -padx => 5 );
     $frame->Button(
