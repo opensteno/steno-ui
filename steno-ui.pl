@@ -3,13 +3,21 @@
 use warnings;
 use strict;
 use Tk;
+use File::stat;
+use Fcntl;
 my $mw = tkinit;
 $mw->update;
 my $number;
-
-notify( $mw, "Notification Window #" . ++$number, 1000 );
-$mw->repeat( 15000,
-             sub { notify( $mw, "Notification Window #" . ++$number, 1000 ) } );
+my $filename = 'test.txt';
+my $last_update_time  = (stat($filename)->mtime);
+notify( $mw, "Last update $last_update_time", 2000 );
+$mw->repeat(
+    2000,
+    sub {
+        $last_update_time  = (stat($filename)->mtime);
+        notify( $mw, "Last update $last_update_time", 2000 )
+    }
+    );
 
 MainLoop;
 
