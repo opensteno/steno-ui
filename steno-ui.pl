@@ -9,13 +9,17 @@ my $mw = tkinit;
 $mw->update;
 my $number;
 my $filename = 'test.txt';
-my $last_update_time  = (stat($filename)->mtime);
-notify( $mw, "Last update $last_update_time", 2000 );
+my $newUpdateTime;
+my $lastUpdateTime  = (stat($filename)->mtime);
+notify( $mw, "Steno UI started", 2000 );
 $mw->repeat(
     2000,
     sub {
-        $last_update_time  = (stat($filename)->mtime);
-        notify( $mw, "Last update $last_update_time", 2000 )
+        $newUpdateTime  = (stat($filename)->mtime);
+        if ($newUpdateTime > $lastUpdateTime) {
+            notify( $mw, "File Updated. Timestamp $lastUpdateTime", 2000 );
+            $lastUpdateTime  = $newUpdateTime;
+        }
     }
     );
 
