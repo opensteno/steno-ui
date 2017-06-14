@@ -5,10 +5,23 @@ use strict;
 use Tk;
 use File::stat;
 use Fcntl;
+binmode STDOUT, ":utf8";
+use utf8;
+use JSON;
+
+my $data;
+{
+  local $/;
+  open my $fh, "<", "test.json";
+  $data = <$fh>;
+  close $fh;
+}
+
+my $json = decode_json($data);
 my $mw = tkinit;
 $mw->update;
 my $number;
-my $filename = 'test.txt';
+my $filename = 'test.json';
 my $newUpdateTime;
 my $lastUpdateTime  = (stat($filename)->mtime);
 notify( $mw, "Steno UI started", 2000 );
@@ -17,7 +30,7 @@ $mw->repeat(
     sub {
         $newUpdateTime  = (stat($filename)->mtime);
         if ($newUpdateTime > $lastUpdateTime) {
-            notify( $mw, "File Updated. Timestamp $lastUpdateTime", 2000 );
+            notify( $mw, "$json->{'mode'} $lastUpdateTime", 2000 );
             $lastUpdateTime  = $newUpdateTime;
         }
     }
