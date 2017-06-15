@@ -1,5 +1,7 @@
 {
   "status": "listening",
   "mode": "classic",
-  "stroke": "KWR"
+  "visible": "true",
+  "stroke": "KWR",
+  "command": "close"
 }
